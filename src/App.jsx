@@ -3,15 +3,15 @@ import './App.css'
 
 function App() {
   const [ingr, setIngr] = useState([{ id: 1, name: '', cost: 0 }]);
-  const [peopleNum, setPeopleNum] = useState([1]);
-  const [days, setDays] = useState([1]);
+  const [peopleNum, setPeopleNum] = useState(1);
+  const [days, setDays] = useState(1);
   const [sum, setSum] = useState([]);
   const [resultVisibility, setResultVisibility] = useState(false);
 
   const handleChange = (id, event) => {
     const { name, value } = event.target;
     const newIngr = ingr.map(ingr =>
-      ingr.id === id ? { ...ingr, [name]: name === 'number' ? parseFloat(value) : value } : ingr
+      ingr.id === id ? { ...ingr, [name]: name === 'cost' ? parseFloat(value) : value } : ingr
     );
     setIngr(newIngr);
   };
@@ -27,15 +27,19 @@ function App() {
 
   const handlePeopleNumChange = (event) => {
     const value = parseInt(event.target.value, 10);
-    if (value >= 0) {
-      setPeopleNum(parseInt(value));
+    if (!isNaN(value)) {
+      setPeopleNum(value);
+    } else {
+      setPeopleNum('');
     }
   };
-
+  
   const handleDaysChange = (event) => {
     const value = parseInt(event.target.value, 10);
-    if (value >= 0) {
-      setDays(parseInt(event.target.value, 10))
+    if (!isNaN(value)) {
+      setDays(value);
+    } else {
+      setDays('');
     }
   };
 
