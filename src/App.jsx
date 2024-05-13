@@ -88,7 +88,6 @@ function App() {
           id="nPersone"
           class="form-control w-25"  
           value={peopleNum}
-          min={0}
           onChange={handlePeopleNumChange}
           placeholder="persone"
         />
@@ -100,7 +99,6 @@ function App() {
           id="nGiorni"
           class="form-control w-25"  
           value={days}
-          min={0}
           onChange={handleDaysChange}
           placeholder="giorni"
         />
