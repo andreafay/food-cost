@@ -66,7 +66,7 @@ function App() {
           />
           <input
             type="number"
-            class="form-control w-auto mr-1"
+            class="form-control w-50 mr-1"
             name="cost"
             value={ingr.cost}
             onChange={(event) => handleChange(ingr.id, event)}
