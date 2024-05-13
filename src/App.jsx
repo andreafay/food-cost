@@ -58,7 +58,7 @@ function App() {
         <div key={ingr.id} class="d-flex justify-content-center mb-2">
           <input
             type="text"
-            class="form-control w-auto mr-1"
+            class="form-control w-50 mr-1"
             name="name"
             value={ingr.name}
             onChange={(event) => handleChange(ingr.id, event)}
@@ -66,7 +66,7 @@ function App() {
           />
           <input
             type="number"
-            class="form-control w-50 mr-1"
+            class="form-control w-auto mr-1"
             name="cost"
             value={ingr.cost}
             onChange={(event) => handleChange(ingr.id, event)}
@@ -113,7 +113,7 @@ function App() {
         <h3>Risultato:</h3>
         {resultVisibility &&
           <div>
-            <p>Il food cost è uguale a {sum} euro </p>
+            <h5>Il food cost è uguale a {sum} euro </h5>
           </div>
         }
       </div>
