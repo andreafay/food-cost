@@ -45,7 +45,7 @@ function App() {
     ingr.forEach(i => {
       sum += parseFloat(i.cost);
     });
-    setSum(sum * peopleNum * days);
+    setSum((Math.round(sum * peopleNum * days * 100) / 100).toFixed(2));
     setResultVisibility(true)
   };
 
@@ -88,7 +88,7 @@ function App() {
           id="nPersone"
           class="form-control w-25"  
           value={peopleNum}
-          min={1}
+          min={0}
           onChange={handlePeopleNumChange}
           placeholder="persone"
         />
@@ -100,7 +100,7 @@ function App() {
           id="nGiorni"
           class="form-control w-25"  
           value={days}
-          min={1}
+          min={0}
           onChange={handleDaysChange}
           placeholder="giorni"
         />
