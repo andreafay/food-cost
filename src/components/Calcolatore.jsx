@@ -108,12 +108,15 @@ function Calcolatore(){
         </div>
         <div class="d-flex justify-content-center mt-4">
           <button class="btn btn-primary mr-1" onClick={handleAddIngr}>+</button>
-          <button class="btn btn-primary" onClick={calcolaFoodCost}>Calcola Food Cost</button>
+          <button class="btn btn-primary mr-1" onClick={calcolaFoodCost}>Calcola Food Cost</button>
+          <button class="btn btn-secondary" onClick="/">
+            <a href="/">Indietro</a>
+          </button>
         </div>
         <div class="mt-5">
-          <h3>Risultato:</h3>
           {resultVisibility &&
             <div>
+              <h3>Risultato:</h3>
               <h5>Il food cost è uguale a {sum} euro </h5>
             </div>
           }
