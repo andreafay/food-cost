@@ -55,7 +55,7 @@ function Calcolatore(){
     return (
       <div>
         <div class="mb-5">
-          <h2>Food Cost App</h2>
+          <h2>Calcola Food Cost</h2>
         </div>
         {ingr.map((ingr, index) => (
           <div key={ingr.id} class="d-flex justify-content-center mb-2">
@@ -96,7 +96,7 @@ function Calcolatore(){
           />
         </div>
         <div class="d-flex justify-content-center mt-1">
-          <label for="nGiorni" class="col-form-label mr-3">Numero giorni: </label>
+          <label for="nGiorni" class="col-form-label mr-3">Numero di giorni: </label>
           <input
             type="number"
             id="nGiorni"
@@ -108,7 +108,7 @@ function Calcolatore(){
         </div>
         <div class="d-flex justify-content-center mt-4">
           <button class="btn btn-primary mr-1" onClick={handleAddIngr}>+</button>
-          <button class="btn btn-primary mr-1" onClick={calcolaFoodCost}>Calcola Food Cost</button>
+          <button class="btn btn-primary mr-1" onClick={calcolaFoodCost}>Calcola</button>
           <button class="btn btn-secondary" onClick="/">
             <a href="/">Indietro</a>
           </button>
