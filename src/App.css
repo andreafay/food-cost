@@ -8,3 +8,42 @@
 .card {
   padding: 2em;
 }
+
+ul {
+  list-style: none; /* Remove default bullets */
+  padding-left: 0; /* Remove default padding */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the list items horizontally */
+}
+
+li {
+  display: flex;
+  align-items: center;
+  font-size: 1.2em; /* Makes the text a bit bigger */
+  margin-bottom: 10px; /* Adds some distance between the items */
+}
+
+ul.recipe-list li::before {
+  content: "🍕";
+  font-size: 1.5em; /* Makes the icon a bit bigger */
+  margin-right: 0.5ch; /* Adds some space between the icon and the text */
+  margin-left: -3ch; /* Adjust this value to move the icon to the left */
+}
+
+li button {
+  text-decoration: none; /* Remove underline from links */
+  color: inherit; /* Inherit the text color */
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: none; /* Remove default button background */
+  border: none; /* Remove default button border */
+  padding: 0; /* Remove default button padding */
+  cursor: pointer; /* Show pointer cursor on hover */
+  font-size: inherit; /* Inherit font size */
+}
+
+li button:hover {
+  color: grey;
+}

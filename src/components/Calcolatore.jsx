@@ -100,11 +100,23 @@ function Calcolatore() {
 
     setIngr([{ id: 0, name: '', cost: 0 }]);
     setNameRecipe('');
-    $('#saveModal').modal('toggle')
+    $('#saveModal').modal('toggle');
+    $("#savedAlert").addClass('show');
+    console.log('Hello');
+    showAlert(2000).then(() => { $("#savedAlert").hide(); });
 };
+
+const showAlert = (ms) => {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
   
     return (
       <div>
+        <div className="alert alert-success alert-dismissible fade" id="savedAlert" role="alert">
+          Ricetta salvata!
+        </div>
         <div className="mb-5">
           <h2>Calcola Food Cost</h2>
         </div>
