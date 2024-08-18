@@ -33,7 +33,8 @@ function VediRicette() {
                 <h2 className="h2 mb-5 ml-2">Le mie ricette</h2>
             </div>
             <ul className="recipe-list">
-                {recipes.map((recipe, index) => (
+                {recipes.sort((a, b) => a.nome.localeCompare(b.nome))
+                        .map((recipe, index) => (
                 <li key={index}>
                     <button type="button" data-toggle="modal" data-target="#recipeModal" onClick={() => handleRecipeClick(recipe)}>{capitalize(recipe.nome)}</button>
                 </li>
@@ -57,7 +58,7 @@ function VediRicette() {
                                 <ul>
                                     {selectedRecipe.ingredienti.map((ingredient, index) => (
                                         <li key={index}>
-                                            {ingredient.name} - {ingredient.cost}€
+                                            {ingredient.name} - {(Math.round(ingredient.cost * 100) / 100).toFixed(2)}€
                                         </li>
                                     ))}
                                 </ul>
