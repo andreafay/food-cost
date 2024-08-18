@@ -71,6 +71,8 @@ function Calcolatore() {
 
   const calcolaFoodCost = (event) => {
     event.preventDefault();
+    if (peopleNum < 1 || days < 1)
+      return
     let sum = 0;
     ingr.forEach(i => {
       sum += parseFloat(i.cost);

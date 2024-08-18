@@ -27,6 +27,15 @@ function VediRicette() {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
+    function stringifyRecipe(recipe) {
+        if (recipe.numero_persone == "1"){
+            return capitalize(recipe.nome) + "  |  " + recipe.numero_persone + " persona"
+        } else {
+            return capitalize(recipe.nome) + "  |  " + recipe.numero_persone + " persone"
+        }
+
+    }
+
     return (
         <div className="vediRicette">
             <div>
@@ -51,7 +60,7 @@ function VediRicette() {
                 <div className="modal-dialog" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title" id="recipeModalLabel">{selectedRecipe ? capitalize(selectedRecipe.nome) : ''}</h5>
+                            <h5 className="modal-title" id="recipeModalLabel">{selectedRecipe ? stringifyRecipe(selectedRecipe) : ''}</h5>
                         </div>
                         <div className="modal-body">
                             {selectedRecipe ? (
