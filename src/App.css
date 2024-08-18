@@ -33,6 +33,16 @@ ul.recipe-list li::before {
 
 .recipe-list li button {
   font-weight: 500;
+  min-width: max-content; /* Ensures text does not wrap on desktop */
+  white-space: nowrap; /* Prevent text from wrapping on larger screens */
+}
+
+@media (max-width: 768px) { /* Target devices with a screen width of 768px or less */
+  .recipe-list li button {
+    min-width: auto; /* Allows text to wrap on mobile */
+    white-space: normal; /* Allows text to wrap normally */
+    word-wrap: break-word; /* Ensures long words are broken to fit the container */
+  }
 }
 
 li button {
