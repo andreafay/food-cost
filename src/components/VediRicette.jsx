@@ -7,7 +7,7 @@ function VediRicette() {
     useEffect(() => {
         const storedRecipes = localStorage.getItem('recipes');
         if (storedRecipes) {
-        setRecipes(JSON.parse(storedRecipes));
+            setRecipes(JSON.parse(storedRecipes));
         }
     }, []);
 
@@ -28,12 +28,15 @@ function VediRicette() {
     }
 
     function stringifyRecipe(recipe) {
-        if (recipe.numero_persone == "1"){
-            return capitalize(recipe.nome) + "  |  " + recipe.numero_persone + " persona"
+        const totalCost = recipe.ingredienti.reduce((sum, ingredient) => {
+            const ingredientCost = (ingredient.cost * ingredient.grams) / 1000; // Convert grams to kilograms and calculate cost
+            return sum + ingredientCost;
+        }, 0);
+        if (recipe.numero_persone == "1") {
+            return capitalize(recipe.nome) + "  |  " + recipe.numero_persone + " persona" + "  |  " + totalCost + "€";
         } else {
-            return capitalize(recipe.nome) + "  |  " + recipe.numero_persone + " persone"
+            return capitalize(recipe.nome) + "  |  " + recipe.numero_persone + " persone" + "  |  " + totalCost + "€";
         }
-
     }
 
     return (
@@ -44,9 +47,9 @@ function VediRicette() {
             <ul className="recipe-list">
                 {recipes.sort((a, b) => a.nome.localeCompare(b.nome))
                         .map((recipe, index) => (
-                <li key={index}>
-                    <button type="button" data-toggle="modal" data-target="#recipeModal" onClick={() => handleRecipeClick(recipe)}>{capitalize(recipe.nome)}</button>
-                </li>
+                            <li key={index}>
+                                <button type="button" data-toggle="modal" data-target="#recipeModal" onClick={() => handleRecipeClick(recipe)}>{capitalize(recipe.nome)}</button>
+                            </li>
                 ))}
             </ul>
             
@@ -65,11 +68,14 @@ function VediRicette() {
                         <div className="modal-body">
                             {selectedRecipe ? (
                                 <ul>
-                                    {selectedRecipe.ingredienti.map((ingredient, index) => (
-                                        <li key={index}>
-                                            {ingredient.name} - {(Math.round(ingredient.cost * 100) / 100).toFixed(2)}€
-                                        </li>
-                                    ))}
+                                    {selectedRecipe.ingredienti.map((ingredient, index) => {
+                                        const totalCost = (ingredient.cost * ingredient.grams) / 1000;
+                                        return (
+                                            <li key={index}>
+                                               {ingredient.grams}g di {ingredient.name} - {totalCost.toFixed(2)}€
+                                            </li>
+                                        );
+                                    })}
                                 </ul>
                             ) : (
                                 <p>No recipe selected.</p>

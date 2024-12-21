@@ -1,14 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
 
 function Calcolatore() {
-  const [ingr, setIngr] = useState([{ id: 0, name: '', cost: 0 }]);
+  const [ingr, setIngr] = useState([{ id: 0, name: '', grams: 0, cost: 0}]); //inizializzare a 0 il costo e i grammi per evitare NaN
   const [peopleNum, setPeopleNum] = useState(1);
   const [days, setDays] = useState(1);
   const [sum, setSum] = useState([]);
   const [resultVisibility, setResultVisibility] = useState(false);
   const [nameRecipe, setNameRecipe] = useState('');
   const [recipes, setRecipes] = useState([]);
-  const ingredientIdCounter = useRef(1); // Initialize counter for ingredient IDs
+  const ingredientIdCounter = useRef(1);
 
 
   useEffect(() => {
@@ -28,15 +28,22 @@ function Calcolatore() {
   const handleChange = (id, event) => {
     const { name, value } = event.target;
     const newIngr = ingr.map(ingr =>
-      ingr.id === id ? { ...ingr, [name]: name === 'cost' ? parseFloat(value) : value } : ingr
+      ingr.id === id
+        ? { 
+            ...ingr, 
+            [name]: name === 'cost' || name === 'grams'
+              ? (value === "" ? "" : parseFloat(value) || 0) // Allow empty string for backspace and default to 0 if not a valid number
+              : value
+          }
+        : ingr
     );
     setIngr(newIngr);
   };
 
   const handleAddIngr = () => {
     const newIngredientId = ingredientIdCounter.current;
-    setIngr([...ingr, { id: newIngredientId, name: '', cost: 0 }]);
-    ingredientIdCounter.current++; // Increment counter for next ingredient
+    setIngr([...ingr, { id: newIngredientId, name: '' }]);
+    ingredientIdCounter.current++;
   };
 
   const handleDeleteRow = (id) => {
@@ -75,7 +82,7 @@ function Calcolatore() {
       return
     let sum = 0;
     ingr.forEach(i => {
-      sum += parseFloat(i.cost);
+      sum += parseFloat(i.cost*(i.grams/1000)); //calcolo
     });
     setSum((Math.round(sum * peopleNum * days * 100) / 100).toFixed(2));
     setResultVisibility(true);
@@ -83,30 +90,43 @@ function Calcolatore() {
 
   const saveRecipe = (event) => {
     event.preventDefault();
-
-    if(!nameRecipe || nameRecipe.trim() === '' || ingr.length < 1 || ingr[0].name.trim() === '' || peopleNum < 0 || days < 0){
+  
+    // Validate input
+    if (!nameRecipe || nameRecipe.trim() === '' || ingr.length < 1 || ingr[0].name.trim() === '' || peopleNum < 0 || days < 0) {
       return;
     }
-      
+  
+    // Calculate total cost for each ingredient
+    const updatedIngredients = ingr.map(ingredient => {
+      const totalCost = (ingredient.cost * ingredient.grams) / 1000; // Calculate total cost (grams * cost per kg / 1000)
+      return {
+        ...ingredient,
+        totalCost: totalCost.toFixed(2), // Store the total cost as a string with two decimal places
+      };
+    });
+  
+    // Create new recipe object
     const newRecipe = {
       nome: nameRecipe,
-      ingredienti: ingr,
+      ingredienti: updatedIngredients,
       costo: sum,
       numero_persone: peopleNum,
       numero_giorni: days,
-      data_creazione: new Date().getTime()
+      data_creazione: new Date().getTime(),
     };
-
+  
+    // Save new recipe to the recipe list
     const updatedRecipes = [...recipes, newRecipe];
     setRecipes(updatedRecipes);
-
-    setIngr([{ id: 0, name: '', cost: 0 }]);
+  
+    // Clear form fields after saving the recipe
+    setIngr([{ id: 0, name: '', cost: 0, grams: 0 }]);
     setNameRecipe('');
     $('#saveModal').modal('toggle');
     $("#savedAlert").addClass('show');
-    console.log('Hello');
+    
     showAlert(2000).then(() => { $("#savedAlert").hide(); });
-};
+  };
 
 const showAlert = (ms) => {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -130,16 +150,25 @@ const showAlert = (ms) => {
               name="name"
               value={ingridient.name}
               onChange={(event) => handleChange(ingridient.id, event)}
-              placeholder="ingrediente"
+              placeholder="nome ingrediente"
+            />
+            <input
+              type="number"
+              className="form-control w-50 mr-1"
+              name="grams"
+              value={ingridient.grams === "" ? "" : ingridient.grams || 0}
+              onChange={(event) => handleChange(ingridient.id, event)}
+              step="0.01"
+              placeholder="grammi"
             />
             <input
               type="number"
               className="form-control w-50 mr-1"
               name="cost"
-              value={ingridient.cost}
+              value={ingridient.cost === "" ? "" : ingridient.cost || 0}
               onChange={(event) => handleChange(ingridient.id, event)}
               step="0.01"
-              placeholder="costo"
+              placeholder="prezzo al chilo"
             />
             <button className="btn btn-danger" onClick={() => handleDeleteRow(ingridient.id)}>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
